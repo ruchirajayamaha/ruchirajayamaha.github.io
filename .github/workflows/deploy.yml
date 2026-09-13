@@ -30,7 +30,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Compile and Build Bundle
+      - name: Build Optimized Bundle
         run: npm run build
 
       - name: Upload Production Artifacts
