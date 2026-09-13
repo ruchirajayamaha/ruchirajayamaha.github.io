@@ -153,7 +153,7 @@ export default function App() {
               <a
                 href={personalInfo.github}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/50 hover:bg-slate-800/80 hover:text-white transition flex items-center gap-2 text-xs font-medium"
               >
                 <GithubIcon className="w-4 h-4" /> GitHub
@@ -161,7 +161,7 @@ export default function App() {
               <a
                 href={personalInfo.linkedin}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/50 hover:bg-slate-800/80 hover:text-white transition flex items-center gap-2 text-xs font-medium"
               >
                 <LinkedinIcon className="w-4 h-4" /> LinkedIn
@@ -300,7 +300,7 @@ export default function App() {
                     <a
                       href={proj.githubUrl}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer"
                       className="text-xs font-medium text-slate-300 hover:text-white flex items-center gap-1.5 transition"
                     >
                       <GithubIcon className="w-3.5 h-3.5" /> Source Code
@@ -378,7 +378,7 @@ export default function App() {
             <a
               href={personalInfo.linkedin}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="px-5 py-2.5 rounded-lg border border-slate-700 bg-slate-900 text-slate-200 text-sm font-medium hover:bg-slate-800 transition flex items-center gap-2"
             >
               <LinkedinIcon className="w-4 h-4 text-sky-400" /> Connect on LinkedIn
@@ -388,8 +388,28 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 py-8 text-center text-xs text-slate-500">
-        <p>© {new Date().getFullYear()} Ruchira Jayamaha. Built with React & Tailwind CSS. Hosted on GitHub Pages.</p>
+      <footer className="border-t border-slate-900 py-8 text-slate-500">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+          <p>© {new Date().getFullYear()} Ruchira Jayamaha. Built with React & Tailwind CSS.</p>
+          <div className="flex items-center gap-4">
+            <a
+              href={personalInfo.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-slate-200 transition flex items-center gap-1.5 font-medium"
+            >
+              <GithubIcon className="w-4 h-4" /> GitHub
+            </a>
+            <a
+              href={personalInfo.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-slate-200 transition flex items-center gap-1.5 font-medium"
+            >
+              <LinkedinIcon className="w-4 h-4" /> LinkedIn
+            </a>
+          </div>
+        </div>
       </footer>
     </div>
   );

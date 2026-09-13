@@ -5,7 +5,8 @@ export const personalInfo = {
     bio: "Final-year Financial Mathematics & Industrial Statistics undergraduate at the University of Ruhuna, holding an Advanced Diploma in Data Science from NIBM. Focused on financial mathematics, time-series forecasting, quantitative modeling, and engineering scalable machine learning pipelines.",
     email: "your.email@example.com",
     github: "https://github.com/ruchirajayamaha",
-    linkedin: "https://linkedin.com/in/ruchirajayamaha",
+    linkedin: "https://www.linkedin.com/in/ruchira-jayamaha",
+    website: "https://ruchirajayamaha.me",
     location: "Sri Lanka",
     status: "Actively Seeking Data Science / ML Internship (Available in 3 Months)"
 };
