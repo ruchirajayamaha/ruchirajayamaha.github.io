@@ -27,8 +27,11 @@ jobs:
           node-version: 20
           cache: 'npm'
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       - name: Install Dependencies
-        run: npm install
+        run: npm ci || npm install
 
       - name: Build Optimized Bundle
         run: npm run build
@@ -45,6 +48,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Deploy to GitHub Pages Edge
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
