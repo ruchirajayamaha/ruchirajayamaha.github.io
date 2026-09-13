@@ -92,59 +92,81 @@ export default function App() {
 
         {/* Hero Section */}
         <section id="about" className="flex flex-col lg:flex-row items-center justify-between gap-12 pt-4">
-          <div className="space-y-6 max-w-2xl">
-            <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-semibold">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              {personalInfo.status}
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 max-w-3xl">
+            {/* Profile Image wrapped in gradient glow frame */}
+            <div className="relative group shrink-0">
+              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 rounded-full blur-md opacity-75 group-hover:opacity-100 transition duration-500" />
+              <img
+                src={`${import.meta.env.BASE_URL}profile.jpg`}
+                alt={personalInfo.name}
+                className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-full object-cover border-2 border-slate-900 shadow-2xl"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight text-white">
-              Applied Mathematics Meets <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400">Predictive AI</span>.
-            </h1>
+            <div className="space-y-5 text-center sm:text-left">
+              <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-semibold">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                {personalInfo.status}
+              </div>
 
-            <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
-              {personalInfo.bio}
-            </p>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white">
+                Applied Mathematics Meets <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400">Predictive AI</span>.
+              </h1>
 
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <a
-                href="#projects"
-                className="px-5 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition flex items-center gap-2 shadow-lg shadow-indigo-600/25"
-              >
-                View Technical Projects <ChevronRight className="w-4 h-4" />
-              </a>
-              <button
-                onClick={handleCopyEmail}
-                className="px-5 py-3 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-300 font-medium text-sm transition flex items-center gap-2"
-              >
-                {copiedEmail ? (
-                  <>
-                    <Check className="w-4 h-4 text-emerald-400" />
-                    <span className="text-emerald-400">Email Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="w-4 h-4 text-slate-400" />
-                    <span>Copy Email</span>
-                  </>
-                )}
-              </button>
-            </div>
+              <p className="text-slate-400 text-base leading-relaxed">
+                {personalInfo.bio}
+              </p>
 
-            <div className="flex items-center gap-6 pt-3 text-slate-400">
-              <a href={personalInfo.github} target="_blank" rel="noreferrer" className="hover:text-white transition flex items-center gap-1.5 text-xs font-medium">
-                <GithubIcon className="w-4 h-4" /> GitHub
-              </a>
-              <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="hover:text-white transition flex items-center gap-1.5 text-xs font-medium">
-                <LinkedinIcon className="w-4 h-4" /> LinkedIn
-              </a>
-              <span className="text-xs text-slate-600">|</span>
-              <span className="text-xs text-slate-500 font-mono">Based in {personalInfo.location}</span>
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-1">
+                <a
+                  href="#projects"
+                  className="px-4 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-2 shadow-lg shadow-indigo-600/25"
+                >
+                  View Technical Projects <ChevronRight className="w-4 h-4" />
+                </a>
+                <a
+                  href={`${import.meta.env.BASE_URL}resume.pdf`}
+                  download="Ruchira_Jayamaha_Resume.pdf"
+                  className="px-4 py-2.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 font-semibold text-xs transition flex items-center gap-2 shadow-sm"
+                >
+                  <FileText className="w-4 h-4" /> Download Resume
+                </a>
+                <button
+                  onClick={handleCopyEmail}
+                  className="px-4 py-2.5 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-300 font-medium text-xs transition flex items-center gap-2"
+                >
+                  {copiedEmail ? (
+                    <>
+                      <Check className="w-4 h-4 text-emerald-400" />
+                      <span className="text-emerald-400">Email Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4 text-slate-400" />
+                      <span>Copy Email</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <div className="flex items-center justify-center sm:justify-start gap-6 pt-2 text-slate-400">
+                <a href={personalInfo.github} target="_blank" rel="noreferrer" className="hover:text-white transition flex items-center gap-1.5 text-xs font-medium">
+                  <GithubIcon className="w-4 h-4" /> GitHub
+                </a>
+                <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="hover:text-white transition flex items-center gap-1.5 text-xs font-medium">
+                  <LinkedinIcon className="w-4 h-4" /> LinkedIn
+                </a>
+                <span className="text-xs text-slate-600">|</span>
+                <span className="text-xs text-slate-500 font-mono">Based in {personalInfo.location}</span>
+              </div>
             </div>
           </div>
 
           {/* Hero Terminal Card */}
-          <div className="w-full sm:w-96 rounded-2xl bg-slate-900 border border-slate-800 p-5 shadow-2xl shadow-indigo-950/40 relative overflow-hidden">
+          <div className="w-full sm:w-80 lg:w-96 rounded-2xl bg-slate-900 border border-slate-800 p-5 shadow-2xl shadow-indigo-950/40 shrink-0 relative overflow-hidden">
             <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
               <div className="flex gap-2">
                 <div className="w-3 h-3 rounded-full bg-rose-500/80" />
