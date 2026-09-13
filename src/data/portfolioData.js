@@ -1,11 +1,11 @@
 export const personalInfo = {
-    name: "Ruchira Lakshitha",
-    role: "Data Science & Applied Statistics Undergraduate",
-    tagline: "Applying stochastic processes and formal statistical inference to production ML systems.",
-    bio: "Final-year Industrial Mathematics & Applied Statistics undergraduate at the University of Ruhuna, holding an Advanced Diploma in Data Science from NIBM. Focused on time-series forecasting, quantitative modeling, and engineering scalable machine learning pipelines.",
-    email: "your.email@example.com", // ඔබේ email එක මෙතැනට දාන්න
-    github: "https://github.com/yourusername", // ඔබේ GitHub profile link එක මෙතැනට දාන්න
-    linkedin: "https://linkedin.com/in/yourusername", // ඔබේ LinkedIn profile link එක මෙතැනට දාන්න
+    name: "Ruchira Jayamaha",
+    role: "Financial Mathematics & Industrial Statistics Undergraduate",
+    tagline: "Applying financial mathematics, stochastic processes, and formal statistical inference to production ML systems.",
+    bio: "Final-year Financial Mathematics & Industrial Statistics undergraduate at the University of Ruhuna, holding an Advanced Diploma in Data Science from NIBM. Focused on financial mathematics, time-series forecasting, quantitative modeling, and engineering scalable machine learning pipelines.",
+    email: "your.email@example.com",
+    github: "https://github.com/ruchirajayamaha",
+    linkedin: "https://linkedin.com/in/ruchirajayamaha",
     location: "Sri Lanka",
     status: "Actively Seeking Data Science / ML Internship (Available in 3 Months)"
 };
@@ -15,6 +15,7 @@ export const skillsData = [
         category: "Mathematical & Statistical Rigor",
         badgeColor: "indigo",
         skills: [
+            "Financial Mathematics",
             "Probability Distributions",
             "Hypothesis Testing & A/B Testing",
             "Linear Algebra & Matrix Decompositions",
@@ -70,7 +71,7 @@ export const projectsData = [
         description: "Evaluated daily log-returns on Colombo Stock Exchange equities. Modeled volatility clustering via Maximum Likelihood GARCH(1,1) under Student-t innovations, passing conditional variance into an expanding walk-forward XGBoost classifier.",
         methodology: "MLE GARCH(1,1) + Expanding Window TimeSeriesSplit (5 Folds)",
         techStack: ["Python", "Statsmodels", "arch", "XGBoost", "Matplotlib"],
-        githubUrl: "https://github.com/yourusername",
+        githubUrl: "https://github.com/ruchirajayamaha",
         metrics: "Directional Brier score improved from 0.248 (Baseline) to 0.192; robust across market regimes."
     },
     {
@@ -81,7 +82,7 @@ export const projectsData = [
         description: "Engineered an end-to-end classification system identifying at-risk accounts. Resolved class imbalance using SMOTE-Tomek and decoded black-box predictions for business stakeholders using TreeSHAP summary plots.",
         methodology: "LightGBM + SMOTE-Tomek + TreeSHAP Engine",
         techStack: ["Python", "Scikit-Learn", "LightGBM", "SHAP", "Power BI"],
-        githubUrl: "https://github.com/yourusername",
+        githubUrl: "https://github.com/ruchirajayamaha",
         metrics: "Attained 0.88 ROC-AUC and 0.74 PR-AUC with clear factor attribution."
     },
     {
@@ -92,22 +93,40 @@ export const projectsData = [
         description: "Formulated a linear programming model to optimize resource allocation in industrial batch processing. Integrated automated Shewhart control charts for continuous anomaly tracking.",
         methodology: "Simplex Method + Statistical Process Control (SPC)",
         techStack: ["R", "SciPy Optimize", "NumPy", "Seaborn"],
-        githubUrl: "https://github.com/yourusername",
+        githubUrl: "https://github.com/ruchirajayamaha",
         metrics: "Modeled theoretical waste reduction of 8.5% within operational limits."
     }
 ];
 
 export const educationData = [
     {
+        id: 1,
         institution: "University of Ruhuna, Sri Lanka",
-        degree: "B.Sc. in Industrial Mathematics & Applied Statistics (Reading)",
-        period: "2022 — Present (Final Year)",
-        focus: "Specialized training in probability theory, mathematical statistics, stochastic processes, linear algebra, and multivariate modeling."
+        degree: "B.Sc. (Hons) in Financial Mathematics and Industrial Statistics",
+        period: "Undergraduate (Final Year)",
+        focus: "Specialized training in financial mathematics, stochastic processes, econometric modeling, industrial statistics, and mathematical optimization.",
+        code: "UoR",
+        badgeColor: "indigo",
+        logo: "https://upload.wikimedia.org/wikipedia/en/8/84/University_of_Ruhuna_logo.png"
     },
     {
+        id: 2,
         institution: "National Institute of Business Management (NIBM)",
         degree: "Advanced Diploma in Data Science",
         period: "Completed",
-        focus: "Practical curriculum covering Python for Data Science, Machine Learning pipelines, relational databases with SQL, and business analytics."
+        focus: "Practical curriculum covering data science workflows, machine learning models, relational databases (SQL), and enterprise analytics.",
+        code: "NIBM",
+        badgeColor: "emerald",
+        logo: "https://upload.wikimedia.org/wikipedia/commons/e/e8/NIBM_Sri_Lanka_logo.png"
+    },
+    {
+        id: 3,
+        institution: "Bandaranayake College, Gampaha",
+        degree: "G.C.E. Advanced Level — Physical Science Stream",
+        period: "Secondary Education",
+        focus: "Advanced mathematics, physics, and chemistry foundational education.",
+        code: "BCG",
+        badgeColor: "amber",
+        logo: ""
     }
 ];

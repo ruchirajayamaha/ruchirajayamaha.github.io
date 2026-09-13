@@ -34,6 +34,38 @@ const LinkedinIcon = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
+const InstituteLogo = ({ logo, name, code, badgeColor }) => {
+  const [imgError, setImgError] = useState(false);
+
+  const getBadgeStyle = () => {
+    switch (badgeColor) {
+      case 'indigo':
+        return 'bg-indigo-950/80 border-indigo-500/40 text-indigo-400';
+      case 'emerald':
+        return 'bg-emerald-950/80 border-emerald-500/40 text-emerald-400';
+      case 'amber':
+        return 'bg-amber-950/80 border-amber-500/40 text-amber-400';
+      default:
+        return 'bg-slate-900 border-slate-700 text-slate-300';
+    }
+  };
+
+  return (
+    <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 font-mono font-bold text-xs shadow-md overflow-hidden transition-all duration-300 group-hover:scale-105 ${getBadgeStyle()}`}>
+      {logo && !imgError ? (
+        <img
+          src={logo}
+          alt={name}
+          className="w-full h-full object-contain p-1"
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        <span className="tracking-wider">{code}</span>
+      )}
+    </div>
+  );
+};
+
 export default function App() {
   const [copiedEmail, setCopiedEmail] = useState(false);
 
@@ -63,7 +95,7 @@ export default function App() {
       <header className="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800/80">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="#" className="font-mono text-sm tracking-wider font-semibold text-slate-200 hover:text-indigo-400 transition">
-            <span className="text-indigo-400">&gt;</span> ruchiralakshitha.ds
+            <span className="text-indigo-400">&gt;</span> ruchirajayamaha.ds
           </a>
 
           <nav className="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-400">
@@ -76,7 +108,7 @@ export default function App() {
           <div className="flex items-center gap-3">
             <a
               href={`${import.meta.env.BASE_URL}resume.pdf`}
-              download="Ruchira_Lakshitha_Resume.pdf"
+              download="Ruchira_Jayamaha_Resume.pdf"
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-xs font-semibold text-emerald-400 hover:bg-emerald-500/20 transition shadow-sm"
             >
               <FileText className="w-3.5 h-3.5" />
@@ -159,18 +191,18 @@ export default function App() {
               <div>
                 <span className="text-slate-500"># Academic Background</span>
                 <p><span className="text-indigo-400">university</span> = <span className="text-emerald-300">"Univ. of Ruhuna"</span></p>
-                <p><span className="text-indigo-400">major</span> = <span className="text-emerald-300">"Ind. Math & Statistics"</span></p>
+                <p><span className="text-indigo-400">major</span> = <span className="text-emerald-300">"Financial Math & Ind. Statistics"</span></p>
               </div>
               <div>
                 <span className="text-slate-500"># Professional Certification</span>
                 <p><span className="text-indigo-400">diploma</span> = <span className="text-emerald-300">"NIBM Data Science"</span></p>
               </div>
               <div>
-                <span className="text-slate-500"># Focus Direction</span>
-                <p><span className="text-indigo-400">target_role</span> = <span className="text-sky-300">"Data Scientist / ML"</span></p>
+                <span className="text-slate-500"># Secondary Education</span>
+                <p><span className="text-indigo-400">school</span> = <span className="text-emerald-300">"Bandaranayake College"</span></p>
               </div>
               <div className="pt-2 border-t border-slate-800 text-slate-400 text-[11px]">
-                Stochastic modeling, ML pipelines, and econometric forecasting.
+                Financial mathematics, stochastic modeling, and enterprise data science.
               </div>
             </div>
           </div>
@@ -296,19 +328,33 @@ export default function App() {
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1">Education & Credentials</h2>
           </div>
 
-          <div className="relative border-l border-slate-800 ml-3 pl-8 space-y-10">
+          <div className="relative border-l border-slate-800 ml-3 pl-8 space-y-8">
             {educationData.map((edu, idx) => (
               <div key={idx} className="relative group">
-                <div className="absolute -left-[39px] top-1.5 w-3.5 h-3.5 rounded-full bg-indigo-500 border-4 border-slate-950 group-hover:scale-125 transition" />
-                <div className="space-y-1.5">
-                  <span className="text-xs font-mono font-medium text-indigo-400 uppercase">
-                    {edu.period}
-                  </span>
-                  <h3 className="text-lg font-bold text-slate-100">{edu.degree}</h3>
-                  <p className="text-sm font-medium text-slate-300 flex items-center gap-1.5">
-                    <GraduationCap className="w-4 h-4 text-slate-400" /> {edu.institution}
-                  </p>
-                  <p className="text-xs text-slate-400 pt-1 leading-relaxed max-w-3xl">
+                <div className="absolute -left-[39px] top-4 w-3.5 h-3.5 rounded-full bg-indigo-500 border-4 border-slate-950 group-hover:scale-125 transition" />
+                
+                <div className="bg-slate-900/50 border border-slate-800/90 rounded-xl p-5 hover:border-slate-700/90 transition space-y-3 shadow-sm">
+                  <div className="flex items-start gap-4">
+                    <InstituteLogo
+                      logo={edu.logo}
+                      name={edu.institution}
+                      code={edu.code}
+                      badgeColor={edu.badgeColor}
+                    />
+                    <div className="space-y-1 flex-1 min-w-0">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <span className="text-xs font-mono font-semibold text-indigo-400 uppercase tracking-wide">
+                          {edu.period}
+                        </span>
+                      </div>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-100 leading-snug">{edu.degree}</h3>
+                      <p className="text-xs sm:text-sm font-medium text-slate-300 flex items-center gap-1.5 pt-0.5">
+                        <GraduationCap className="w-4 h-4 text-slate-400 shrink-0" /> {edu.institution}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="text-xs text-slate-400 pt-2 leading-relaxed max-w-3xl border-t border-slate-800/60">
                     {edu.focus}
                   </p>
                 </div>
@@ -347,7 +393,7 @@ export default function App() {
 
       {/* Footer */}
       <footer className="border-t border-slate-900 py-8 text-center text-xs text-slate-500">
-        <p>© {new Date().getFullYear()} Ruchira Lakshitha. Built with React & Tailwind CSS. Hosted on GitHub Pages.</p>
+        <p>© {new Date().getFullYear()} Ruchira Jayamaha. Built with React & Tailwind CSS. Hosted on GitHub Pages.</p>
       </footer>
     </div>
   );
