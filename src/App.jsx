@@ -90,113 +90,113 @@ export default function App() {
       {/* Main Content Area */}
       <main className="max-w-6xl mx-auto px-6 py-12 md:py-20 space-y-28">
 
-        {/* Hero Section */}
-        <section id="about" className="flex flex-col lg:flex-row items-center justify-between gap-12 pt-4">
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 max-w-3xl">
-            {/* Profile Image wrapped in gradient glow frame */}
-            <div className="relative group shrink-0">
-              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-500 rounded-full blur-md opacity-75 group-hover:opacity-100 transition duration-500" />
-              <img
-                src={`${import.meta.env.BASE_URL}profile.jpg`}
-                alt={personalInfo.name}
-                className="relative w-32 h-32 sm:w-36 sm:h-36 rounded-full object-cover border-2 border-slate-900 shadow-2xl"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                }}
-              />
+        {/* Hero Section — Minimalist Vercel / Linear Style */}
+        <section id="about" className="py-16 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          
+          {/* Left Column: Content & Typography */}
+          <div className="lg:col-span-7 space-y-6">
+            
+            {/* Status Pill */}
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-mono font-medium shadow-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              Available for Data Science & ML Opportunities
             </div>
 
-            <div className="space-y-5 text-center sm:text-left">
-              <div className="inline-flex items-center gap-2.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                {personalInfo.status}
-              </div>
-
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white">
-                Applied Mathematics Meets <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400">Predictive AI</span>.
+            {/* Name & Title */}
+            <div className="space-y-2">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-100">
+                {personalInfo.name}
               </h1>
+              <p className="text-base sm:text-lg font-medium text-indigo-400/90 leading-snug">
+                B.Sc. (Hons) Financial Mathematics & Industrial Statistics Undergraduate
+              </p>
+            </div>
 
-              <p className="text-slate-400 text-base leading-relaxed">
+            {/* Tagline & Bio */}
+            <div className="space-y-3 max-w-2xl">
+              <p className="text-slate-300 font-medium text-base sm:text-lg leading-relaxed">
+                Applying stochastic modeling, statistical inference, and machine learning to high-impact quantitative problems.
+              </p>
+              <p className="text-slate-400 text-sm sm:text-base leading-relaxed">
                 {personalInfo.bio}
               </p>
+            </div>
 
-              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-1">
-                <a
-                  href="#projects"
-                  className="px-4 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-2 shadow-lg shadow-indigo-600/25"
-                >
-                  View Technical Projects <ChevronRight className="w-4 h-4" />
-                </a>
-                <a
-                  href={`${import.meta.env.BASE_URL}resume.pdf`}
-                  download="Ruchira_Jayamaha_Resume.pdf"
-                  className="px-4 py-2.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 font-semibold text-xs transition flex items-center gap-2 shadow-sm"
-                >
-                  <FileText className="w-4 h-4" /> Download Resume
-                </a>
-                <button
-                  onClick={handleCopyEmail}
-                  className="px-4 py-2.5 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-300 font-medium text-xs transition flex items-center gap-2"
-                >
-                  {copiedEmail ? (
-                    <>
-                      <Check className="w-4 h-4 text-emerald-400" />
-                      <span className="text-emerald-400">Email Copied!</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4 text-slate-400" />
-                      <span>Copy Email</span>
-                    </>
-                  )}
-                </button>
-              </div>
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-4 pt-2">
+              <a
+                href="#projects"
+                className="px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm transition-all duration-200 shadow-lg shadow-indigo-600/20 flex items-center gap-2"
+              >
+                View Projects <ChevronRight className="w-4 h-4" />
+              </a>
+              <a
+                href={`mailto:${personalInfo.email}`}
+                className="px-5 py-2.5 rounded-lg border border-slate-800 bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition-all duration-200 flex items-center gap-2"
+              >
+                <Mail className="w-4 h-4 text-slate-400" /> Contact Me
+              </a>
+              <button
+                onClick={handleCopyEmail}
+                className="p-2.5 rounded-lg border border-slate-800 bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition"
+                title="Copy Email Address"
+              >
+                {copiedEmail ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+              </button>
+            </div>
 
-              <div className="flex items-center justify-center sm:justify-start gap-6 pt-2 text-slate-400">
-                <a href={personalInfo.github} target="_blank" rel="noreferrer" className="hover:text-white transition flex items-center gap-1.5 text-xs font-medium">
-                  <GithubIcon className="w-4 h-4" /> GitHub
-                </a>
-                <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="hover:text-white transition flex items-center gap-1.5 text-xs font-medium">
-                  <LinkedinIcon className="w-4 h-4" /> LinkedIn
-                </a>
-                <span className="text-xs text-slate-600">|</span>
-                <span className="text-xs text-slate-500 font-mono">Based in {personalInfo.location}</span>
+            {/* Social Icons Row */}
+            <div className="flex items-center gap-4 pt-4 border-t border-slate-800/80 text-slate-400">
+              <a
+                href={personalInfo.github}
+                target="_blank"
+                rel="noreferrer"
+                className="px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/50 hover:bg-slate-800/80 hover:text-white transition flex items-center gap-2 text-xs font-medium"
+              >
+                <GithubIcon className="w-4 h-4" /> GitHub
+              </a>
+              <a
+                href={personalInfo.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="px-3 py-1.5 rounded-lg border border-slate-800 bg-slate-900/50 hover:bg-slate-800/80 hover:text-white transition flex items-center gap-2 text-xs font-medium"
+              >
+                <LinkedinIcon className="w-4 h-4" /> LinkedIn
+              </a>
+              <span className="text-xs text-slate-600">|</span>
+              <span className="text-xs text-slate-500 font-mono">Based in {personalInfo.location}</span>
+            </div>
+          </div>
+
+          {/* Right Column: Sleek Portrait Card */}
+          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+            <div className="relative w-full max-w-[320px] sm:max-w-[340px] aspect-[4/5] rounded-3xl p-2 bg-slate-900/90 border border-slate-800 shadow-2xl shadow-indigo-950/30 overflow-hidden group">
+              {/* Gentle Backdrop Glow */}
+              <div className="absolute -inset-2 bg-gradient-to-tr from-indigo-500/20 via-sky-500/10 to-emerald-500/20 rounded-3xl blur-xl opacity-60 group-hover:opacity-90 transition duration-700 pointer-events-none" />
+
+              <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-950">
+                <img
+                  src={`${import.meta.env.BASE_URL}profile.jpg`}
+                  alt={personalInfo.name}
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+
+                {/* Floating Glassmorphism Pill at bottom */}
+                <div className="absolute bottom-3 left-3 right-3 backdrop-blur-md bg-slate-950/75 border border-slate-800/80 rounded-xl py-2 px-3 text-center shadow-lg">
+                  <p className="text-xs font-mono font-medium text-slate-300 tracking-wide">
+                    Univ. of Ruhuna • NIBM
+                  </p>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Hero Terminal Card */}
-          <div className="w-full sm:w-80 lg:w-96 rounded-2xl bg-slate-900 border border-slate-800 p-5 shadow-2xl shadow-indigo-950/40 shrink-0 relative overflow-hidden">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
-              <div className="flex gap-2">
-                <div className="w-3 h-3 rounded-full bg-rose-500/80" />
-                <div className="w-3 h-3 rounded-full bg-amber-500/80" />
-                <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
-              </div>
-              <div className="flex items-center gap-1.5 text-xs text-slate-500 font-mono">
-                <Terminal className="w-3.5 h-3.5" /> ruchira_profile.py
-              </div>
-            </div>
-
-            <div className="font-mono text-xs text-slate-300 space-y-2.5">
-              <div>
-                <span className="text-slate-500"># Academic Background</span>
-                <p><span className="text-indigo-400">university</span> = <span className="text-emerald-300">"Univ. of Ruhuna"</span></p>
-                <p><span className="text-indigo-400">major</span> = <span className="text-emerald-300">"Financial Math & Ind. Statistics"</span></p>
-              </div>
-              <div>
-                <span className="text-slate-500"># Professional Certification</span>
-                <p><span className="text-indigo-400">diploma</span> = <span className="text-emerald-300">"NIBM Data Science"</span></p>
-              </div>
-              <div>
-                <span className="text-slate-500"># Secondary Education</span>
-                <p><span className="text-indigo-400">school</span> = <span className="text-emerald-300">"Bandaranayake College"</span></p>
-              </div>
-              <div className="pt-2 border-t border-slate-800 text-slate-400 text-[11px]">
-                Financial mathematics, stochastic modeling, and enterprise data science.
-              </div>
-            </div>
-          </div>
         </section>
 
         {/* Competencies Section */}
