@@ -162,7 +162,7 @@ export default function App() {
                 View Projects <ChevronRight className="w-4 h-4" />
               </a>
               <a
-                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${personalInfo.email}&su=Regarding%20Data%20Science%20Opportunities`}
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${personalInfo.email}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-5 py-2.5 rounded-lg border border-slate-800 bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition-all duration-200 flex items-center gap-2"
@@ -411,7 +411,7 @@ export default function App() {
 
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${personalInfo.email}&su=Regarding%20Data%20Science%20Opportunities`}
+              href={`https://mail.google.com/mail/?view=cm&fs=1&to=${personalInfo.email}`}
               target="_blank"
               rel="noopener noreferrer"
               className="px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition flex items-center gap-2 shadow-lg shadow-indigo-600/25"
