@@ -63,6 +63,18 @@
   }
 }
 
+/* Ambient Stochastic Grid Pattern */
+.bg-stochastic-grid {
+  background-image: radial-gradient(rgba(99, 102, 241, 0.12) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Formula fade mask utility */
+.formula-mask {
+  mask-image: linear-gradient(to right, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+}
+
 /* View Transition Animation */
 @keyframes viewFadeIn {
   from {

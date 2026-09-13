@@ -8,7 +8,7 @@ export const personalInfo = {
     linkedin: "https://www.linkedin.com/in/ruchira-jayamaha",
     website: "https://ruchirajayamaha.me",
     location: "Sri Lanka",
-    status: "Actively Seeking Data Science / ML Internship (Available in 3 Months)"
+    status: "Open for Data Science / ML Opportunities"
 };
 
 export const skillsData = [
@@ -35,7 +35,7 @@ export const skillsData = [
             "Class Imbalance Handling (SMOTE)",
             "Model Evaluation (ROC-AUC, PR-AUC, F1-Score)",
             "Explainable AI (SHAP)",
-            "Deep Learning Fundamentals"
+            "Deep Learning & Neural Architectures"
         ]
     },
     {
@@ -46,8 +46,8 @@ export const skillsData = [
             "R (Statistical Computing, ggplot2)",
             "SQL (PostgreSQL, Window Functions, CTEs)",
             "Git & GitHub Version Control",
-            "FastAPI (Basics)",
-            "Docker (Basics)"
+            "FastAPI",
+            "Docker (Containerization)"
         ]
     },
     {
@@ -71,9 +71,10 @@ export const projectsData = [
         formula: "\\sigma_t^2 = \\omega + \\alpha \\epsilon_{t-1}^2 + \\beta \\sigma_{t-1}^2",
         description: "Evaluated daily log-returns on Colombo Stock Exchange equities. Modeled volatility clustering via Maximum Likelihood GARCH(1,1) under Student-t innovations, passing conditional variance into an expanding walk-forward XGBoost classifier.",
         methodology: "MLE GARCH(1,1) + Expanding Window TimeSeriesSplit (5 Folds)",
+        quantChips: ["N=Daily CSE Equities", "T=5-Yr Horizon", "Walk-Forward CV"],
         techStack: ["Python", "Statsmodels", "arch", "XGBoost", "Matplotlib"],
         githubUrl: "https://github.com/ruchirajayamaha",
-        metrics: "Directional Brier score improved from 0.248 (Baseline) to 0.192; robust across market regimes."
+        metrics: "Directional Brier score improved 22.6% (0.248 → 0.192) via expanding walk-forward validation — robust across shifting market regimes, not just in-sample."
     },
     {
         id: 2,
@@ -82,9 +83,10 @@ export const projectsData = [
         formula: "\\phi_i = \\sum_{S \\subseteq N \\setminus \\{i\\}} \\frac{|S|!(|N|-|S|-1)!}{|N|!} (v(S \\cup \\{i\\}) - v(S))",
         description: "Engineered an end-to-end classification system identifying at-risk accounts. Resolved class imbalance using SMOTE-Tomek and decoded black-box predictions for business stakeholders using TreeSHAP summary plots.",
         methodology: "LightGBM + SMOTE-Tomek + TreeSHAP Engine",
+        quantChips: ["N=Telecom Cohort", "SMOTE-Tomek", "TreeSHAP Attribution"],
         techStack: ["Python", "Scikit-Learn", "LightGBM", "SHAP", "Power BI"],
         githubUrl: "https://github.com/ruchirajayamaha",
-        metrics: "Attained 0.88 ROC-AUC and 0.74 PR-AUC with clear factor attribution."
+        metrics: "0.88 ROC-AUC / 0.74 PR-AUC — PR-AUC reported deliberately for severe class imbalance; TreeSHAP yields instant factor attribution for business stakeholders."
     },
     {
         id: 3,
@@ -93,9 +95,10 @@ export const projectsData = [
         formula: "\\min_{x} c^T x \\quad \\text{subject to} \\quad Ax \\le b, \\; x \\ge 0",
         description: "Formulated a linear programming model to optimize resource allocation in industrial batch processing. Integrated automated Shewhart control charts for continuous anomaly tracking.",
         methodology: "Simplex Method + Statistical Process Control (SPC)",
+        quantChips: ["Simplex Algorithm", "Multi-Constraint LP", "Shewhart SPC"],
         techStack: ["R", "SciPy Optimize", "NumPy", "Seaborn"],
         githubUrl: "https://github.com/ruchirajayamaha",
-        metrics: "Modeled theoretical waste reduction of 8.5% within operational limits."
+        metrics: "Modeled an 8.5% reduction in production waste via LP-based resource reallocation, validated against real operational and capacity constraints."
     }
 ];
 

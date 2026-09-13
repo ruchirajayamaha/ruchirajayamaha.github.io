@@ -168,7 +168,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500/30 selection:text-indigo-200 flex flex-col justify-between relative overflow-x-hidden">
-      {/* Background Ambience Gradients */}
+      {/* Background Ambience Gradients & Stochastic Grid */}
+      <div className="fixed inset-0 -z-10 bg-stochastic-grid opacity-35 pointer-events-none" />
       <div className="fixed top-0 left-1/4 -z-10 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[130px] pointer-events-none" />
       <div className="fixed bottom-1/4 right-1/4 -z-10 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[130px] pointer-events-none" />
 
@@ -194,7 +195,7 @@ export default function App() {
                   className={`px-3.5 py-1.5 rounded-lg transition-all duration-200 relative ${
                     isActive
                       ? 'bg-indigo-600/20 text-indigo-300 font-semibold shadow-sm border border-indigo-500/30'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/50'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-950/50'
                   }`}
                 >
                   {item.label}
@@ -260,7 +261,7 @@ export default function App() {
             <section className="py-6 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               {/* Left Column */}
               <div className="lg:col-span-7 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-mono font-medium shadow-sm">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 text-xs font-mono font-medium shadow-sm">
                   <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -298,7 +299,7 @@ export default function App() {
                     onClick={() => handleTabChange('contact')}
                     className="px-5 py-2.5 rounded-lg border border-slate-800 bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition-all duration-200 flex items-center gap-2"
                   >
-                    <Mail className="w-4 h-4 text-slate-400" /> Contact Me
+                    <Mail className="w-4 h-4 text-slate-400" /> Get in Touch
                   </button>
                   <button
                     onClick={handleCopyEmail}
@@ -352,7 +353,7 @@ export default function App() {
                     <img
                       src={`${import.meta.env.BASE_URL}profile.jpg`}
                       alt={personalInfo.name}
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                      className="w-full h-full object-cover object-center filter brightness-95 contrast-[1.03] saturate-[0.9] group-hover:scale-105 group-hover:saturate-100 transition-all duration-700"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                       }}
@@ -586,50 +587,68 @@ export default function App() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
               {projectsData.map((proj) => (
                 <div
                   key={proj.id}
-                  className="bg-slate-900/60 border border-slate-800/90 rounded-2xl p-6 flex flex-col justify-between hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300 group"
+                  className="bg-slate-900/60 backdrop-blur-sm border border-slate-800/90 rounded-2xl p-6 flex flex-col justify-between h-full hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300 group"
                 >
-                  <div className="space-y-3">
-                    <div>
-                      <span className="text-[11px] font-mono text-indigo-400 tracking-wider uppercase font-semibold">
-                        {proj.subtitle}
-                      </span>
-                      <h3 className="text-lg font-bold text-slate-100 mt-1 group-hover:text-indigo-300 transition">
-                        {proj.title}
-                      </h3>
+                  <div className="space-y-3 flex-1 flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div>
+                        <span className="text-[11px] font-mono text-indigo-400 tracking-wider uppercase font-semibold">
+                          {proj.subtitle}
+                        </span>
+                        <h3 className="text-lg font-bold text-slate-100 mt-1 group-hover:text-indigo-300 transition">
+                          {proj.title}
+                        </h3>
+                      </div>
+
+                      {/* Quant Chips Badges */}
+                      {proj.quantChips && (
+                        <div className="flex flex-wrap gap-1.5 pt-0.5">
+                          {proj.quantChips.map((chip, cIdx) => (
+                            <span
+                              key={cIdx}
+                              className="text-[10px] font-mono px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-semibold"
+                            >
+                              {chip}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Responsive LaTeX Math Formula Container with Fade Mask */}
+                      {proj.formula && (
+                        <div className="p-3 rounded-xl bg-slate-950/90 border border-indigo-500/20 my-3 shadow-inner max-w-full overflow-hidden relative">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-[10px] font-mono text-indigo-400/90 uppercase tracking-wider block">
+                              Mathematical Formulation
+                            </span>
+                            <span className="text-[9px] font-mono text-slate-500">LaTeX</span>
+                          </div>
+                          <div className="overflow-x-auto no-scrollbar max-w-full py-1 formula-mask">
+                            <MathFormula math={proj.formula} block={true} />
+                          </div>
+                        </div>
+                      )}
+
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        {proj.description}
+                      </p>
                     </div>
 
-                    {/* Responsive LaTeX Math Formula Container */}
-                    {proj.formula && (
-                      <div className="p-3 rounded-xl bg-slate-950/90 border border-indigo-500/20 my-3 shadow-inner max-w-full overflow-hidden">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-[10px] font-mono text-indigo-400/90 uppercase tracking-wider block">
-                            Mathematical Formulation
-                          </span>
-                          <span className="text-[9px] font-mono text-slate-500">LaTeX</span>
-                        </div>
-                        <div className="overflow-x-auto no-scrollbar max-w-full py-1">
-                          <MathFormula math={proj.formula} block={true} />
-                        </div>
-                      </div>
-                    )}
-
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      {proj.description}
-                    </p>
-
-                    <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800 space-y-1">
-                      <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block">Quantified Impact</span>
-                      <p className="text-xs font-medium text-emerald-400">
+                    <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800/90 space-y-1 mt-3">
+                      <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider block font-semibold">
+                        Quantified Empirical Impact
+                      </span>
+                      <p className="text-xs font-medium text-emerald-400 leading-relaxed">
                         {proj.metrics}
                       </p>
                     </div>
                   </div>
 
-                  <div className="pt-6 space-y-4">
+                  <div className="pt-6 space-y-4 mt-auto">
                     <div className="flex flex-wrap gap-1.5">
                       {proj.techStack.map((tech, tIdx) => (
                         <span
