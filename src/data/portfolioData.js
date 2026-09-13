@@ -107,7 +107,7 @@ export const educationData = [
         focus: "Specialized training in financial mathematics, stochastic processes, econometric modeling, industrial statistics, and mathematical optimization.",
         code: "UoR",
         badgeColor: "indigo",
-        logo: "https://upload.wikimedia.org/wikipedia/en/8/84/University_of_Ruhuna_logo.png"
+        logo: `${import.meta.env.BASE_URL}ruhuna-logo.png`
     },
     {
         id: 2,
@@ -117,7 +117,7 @@ export const educationData = [
         focus: "Practical curriculum covering data science workflows, machine learning models, relational databases (SQL), and enterprise analytics.",
         code: "NIBM",
         badgeColor: "emerald",
-        logo: "https://upload.wikimedia.org/wikipedia/commons/e/e8/NIBM_Sri_Lanka_logo.png"
+        logo: `${import.meta.env.BASE_URL}nibm-logo.png`
     },
     {
         id: 3,
@@ -127,6 +127,6 @@ export const educationData = [
         focus: "Advanced mathematics, physics, and chemistry foundational education.",
         code: "BCG",
         badgeColor: "amber",
-        logo: ""
+        logo: `${import.meta.env.BASE_URL}bcg-logo.png`
     }
 ];

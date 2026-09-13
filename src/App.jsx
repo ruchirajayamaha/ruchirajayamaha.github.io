@@ -34,37 +34,6 @@ const LinkedinIcon = ({ className = "w-4 h-4" }) => (
   </svg>
 );
 
-const InstituteLogo = ({ logo, name, code, badgeColor }) => {
-  const [imgError, setImgError] = useState(false);
-
-  const getBadgeStyle = () => {
-    switch (badgeColor) {
-      case 'indigo':
-        return 'bg-indigo-950/80 border-indigo-500/40 text-indigo-400';
-      case 'emerald':
-        return 'bg-emerald-950/80 border-emerald-500/40 text-emerald-400';
-      case 'amber':
-        return 'bg-amber-950/80 border-amber-500/40 text-amber-400';
-      default:
-        return 'bg-slate-900 border-slate-700 text-slate-300';
-    }
-  };
-
-  return (
-    <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 font-mono font-bold text-xs shadow-md overflow-hidden transition-all duration-300 group-hover:scale-105 ${getBadgeStyle()}`}>
-      {logo && !imgError ? (
-        <img
-          src={logo}
-          alt={name}
-          className="w-full h-full object-contain p-1"
-          onError={() => setImgError(true)}
-        />
-      ) : (
-        <span className="tracking-wider">{code}</span>
-      )}
-    </div>
-  );
-};
 
 export default function App() {
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -335,12 +304,17 @@ export default function App() {
                 
                 <div className="bg-slate-900/50 border border-slate-800/90 rounded-xl p-5 hover:border-slate-700/90 transition space-y-3 shadow-sm">
                   <div className="flex items-start gap-4">
-                    <InstituteLogo
-                      logo={edu.logo}
-                      name={edu.institution}
-                      code={edu.code}
-                      badgeColor={edu.badgeColor}
-                    />
+                    <div className="w-12 h-12 rounded-xl bg-white p-1.5 flex items-center justify-center border border-slate-700/60 shadow-md shrink-0 overflow-hidden">
+                      {edu.logo ? (
+                        <img 
+                          src={edu.logo} 
+                          alt={edu.institution} 
+                          className="w-full h-full object-contain"
+                        />
+                      ) : (
+                        <span className="font-mono text-xs font-bold text-indigo-400">EDU</span>
+                      )}
+                    </div>
                     <div className="space-y-1 flex-1 min-w-0">
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <span className="text-xs font-mono font-semibold text-indigo-400 uppercase tracking-wide">
