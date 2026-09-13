@@ -3,7 +3,7 @@ export const personalInfo = {
     role: "Financial Mathematics & Industrial Statistics Undergraduate",
     tagline: "Applying financial mathematics, stochastic processes, and formal statistical inference to production ML systems.",
     bio: "Final-year Financial Mathematics & Industrial Statistics undergraduate at the University of Ruhuna, holding an Advanced Diploma in Data Science from NIBM. Focused on financial mathematics, time-series forecasting, quantitative modeling, and engineering scalable machine learning pipelines.",
-    email: "your.email@example.com",
+    email: "ruchiralakshithainfo@gmail.com",
     github: "https://github.com/ruchirajayamaha",
     linkedin: "https://www.linkedin.com/in/ruchira-jayamaha",
     website: "https://ruchirajayamaha.me",
