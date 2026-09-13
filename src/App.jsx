@@ -38,10 +38,38 @@ const LinkedinIcon = ({ className = "w-4 h-4" }) => (
 export default function App() {
   const [copiedEmail, setCopiedEmail] = useState(false);
 
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText(personalInfo.email);
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
+  const handleCopyEmail = (e) => {
+    if (e) e.preventDefault();
+    const emailText = personalInfo.email;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(emailText).then(() => {
+        setCopiedEmail(true);
+        setTimeout(() => setCopiedEmail(false), 2500);
+      }).catch(() => {
+        fallbackCopyTextToClipboard(emailText);
+      });
+    } else {
+      fallbackCopyTextToClipboard(emailText);
+    }
+  };
+
+  const fallbackCopyTextToClipboard = (text) => {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+      setCopiedEmail(true);
+      setTimeout(() => setCopiedEmail(false), 2500);
+    } catch (err) {
+      console.error('Copy fallback failed', err);
+    }
+    document.body.removeChild(textArea);
   };
 
   const getCategoryIcon = (index) => {
@@ -134,17 +162,28 @@ export default function App() {
                 View Projects <ChevronRight className="w-4 h-4" />
               </a>
               <a
-                href={`mailto:${personalInfo.email}`}
+                href={`mailto:${personalInfo.email}?subject=Regarding%20Data%20Science%20Opportunities`}
                 className="px-5 py-2.5 rounded-lg border border-slate-800 bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white font-medium text-sm transition-all duration-200 flex items-center gap-2"
               >
                 <Mail className="w-4 h-4 text-slate-400" /> Contact Me
               </a>
               <button
                 onClick={handleCopyEmail}
-                className="p-2.5 rounded-lg border border-slate-800 bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition"
+                className="px-3.5 py-2.5 rounded-lg border border-slate-800 bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition text-xs font-mono flex items-center gap-1.5"
                 title="Copy Email Address"
+                aria-label="Copy Email Address"
               >
-                {copiedEmail ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                {copiedEmail ? (
+                  <>
+                    <Check className="w-4 h-4 text-emerald-400" />
+                    <span className="text-emerald-400 font-semibold">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4" />
+                    <span className="hidden sm:inline">Copy Email</span>
+                  </>
+                )}
               </button>
             </div>
 
@@ -370,11 +409,27 @@ export default function App() {
 
           <div className="flex flex-wrap justify-center gap-4">
             <a
-              href={`mailto:${personalInfo.email}`}
-              className="px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition flex items-center gap-2"
+              href={`mailto:${personalInfo.email}?subject=Regarding%20Data%20Science%20Opportunities`}
+              className="px-5 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition flex items-center gap-2 shadow-lg shadow-indigo-600/25"
             >
               <Mail className="w-4 h-4" /> Send Direct Email
             </a>
+            <button
+              onClick={handleCopyEmail}
+              className="px-5 py-2.5 rounded-lg border border-slate-700 bg-slate-900 text-slate-200 text-sm font-medium hover:bg-slate-800 transition flex items-center gap-2"
+            >
+              {copiedEmail ? (
+                <>
+                  <Check className="w-4 h-4 text-emerald-400" />
+                  <span className="text-emerald-400 font-semibold">Copied to Clipboard!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4 text-slate-400" />
+                  <span>Copy Email Address</span>
+                </>
+              )}
+            </button>
             <a
               href={personalInfo.linkedin}
               target="_blank"
