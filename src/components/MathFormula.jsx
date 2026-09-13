@@ -17,7 +17,7 @@ export default function MathFormula({ math, block = false }) {
     return (
         <div
             ref={containerRef}
-            className={`text-indigo-300 font-mono overflow-x-auto py-1 ${block ? 'text-center my-1' : 'inline-block'}`}
+            className={`text-indigo-300 font-mono overflow-x-auto max-w-full py-1 no-scrollbar text-xs sm:text-sm ${block ? 'text-center my-1 block' : 'inline-block'}`}
         />
     );
 }
