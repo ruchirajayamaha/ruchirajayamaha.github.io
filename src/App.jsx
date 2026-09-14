@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import {
   Mail,
   FileText,
@@ -14,14 +15,11 @@ import {
   Menu,
   X,
   ArrowRight,
-  Clock,
-  Globe,
   BookOpen,
   Send,
   ExternalLink,
   Layers,
   Activity,
-  Award,
   Loader2,
   MapPin,
   AlertCircle
@@ -51,6 +49,60 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const shouldReduceMotion = useReducedMotion();
+
+  // Snappy, modern page transition variants (<= 220ms, strictly under 250ms target)
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 8,
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0.12 : 0.22,
+        ease: [0.25, 1, 0.5, 1],
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : -8,
+      transition: {
+        duration: shouldReduceMotion ? 0.12 : 0.22,
+        ease: [0.25, 1, 0.5, 1],
+      },
+    },
+  };
+
+  // Staggered container for card grids (Competencies, Projects, Teasers)
+  const cardContainerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: shouldReduceMotion ? 0 : 0.06,
+        delayChildren: shouldReduceMotion ? 0 : 0.04,
+      },
+    },
+  };
+
+  // Staggered card entrance variants
+  const cardItemVariants = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 10,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0.12 : 0.22,
+        ease: [0.25, 1, 0.5, 1],
+      },
+    },
+  };
 
   // Modal State for Project Proof of Work / Methodology
   const [activeMethodologyProject, setActiveMethodologyProject] = useState(null);
@@ -192,16 +244,26 @@ export default function App() {
                 <button
                   key={item.id}
                   onClick={() => handleTabChange(item.id)}
-                  className={`px-3.5 py-1.5 rounded-lg transition-all duration-200 relative ${
+                  className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors duration-150 relative ${
                     isActive
-                      ? 'bg-indigo-600/20 text-indigo-300 font-semibold shadow-sm border border-indigo-500/30'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-950/50'
+                      ? 'text-indigo-200 font-semibold'
+                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-950/40'
                   }`}
                 >
-                  {item.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-indigo-400 rounded-full" />
+                    <motion.div
+                      layoutId="activeTabPill"
+                      className="absolute inset-0 bg-indigo-600/20 border border-indigo-500/30 rounded-lg shadow-sm"
+                      transition={
+                        shouldReduceMotion
+                          ? { duration: 0 }
+                          : { type: 'spring', stiffness: 450, damping: 35, duration: 0.22 }
+                      }
+                    >
+                      <span className="absolute bottom-0 left-2.5 right-2.5 h-0.5 bg-indigo-400 rounded-full" />
+                    </motion.div>
                   )}
+                  <span className="relative z-10">{item.label}</span>
                 </button>
               );
             })}
@@ -229,34 +291,50 @@ export default function App() {
         </div>
 
         {/* Mobile View Switcher Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-b border-slate-800 bg-slate-950/95 px-6 py-4 space-y-2 animate-view">
-            {navItems.map((item) => {
-              const isActive = activeTab === item.id;
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => handleTabChange(item.id)}
-                  className={`w-full text-left px-4 py-2.5 rounded-lg font-medium text-sm transition ${
-                    isActive
-                      ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 font-semibold'
-                      : 'text-slate-300 hover:bg-slate-900'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </div>
-        )}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              key="mobile-nav"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.18, ease: 'easeOut' }}
+              className="md:hidden border-b border-slate-800 bg-slate-950/95 px-6 py-4 space-y-2 overflow-hidden"
+            >
+              {navItems.map((item) => {
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleTabChange(item.id)}
+                    className={`w-full text-left px-4 py-2.5 rounded-lg font-medium text-sm transition ${
+                      isActive
+                        ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/30 font-semibold'
+                        : 'text-slate-300 hover:bg-slate-900'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Main SPA Content Container */}
-      <main className="max-w-6xl mx-auto px-6 py-8 md:py-12 flex-1 w-full flex flex-col justify-center">
-        
-        {/* VIEW 1: HOME (Hero + SPA Teaser Hub) */}
-        {activeTab === 'home' && (
-          <div className="space-y-14 animate-view my-auto">
+      <main className="max-w-6xl mx-auto px-6 py-8 md:py-12 flex-1 w-full flex flex-col justify-start md:justify-center min-h-[calc(100vh-14rem)]">
+        <AnimatePresence mode="wait">
+          {/* VIEW 1: HOME (Hero + SPA Teaser Hub) */}
+          {activeTab === 'home' && (
+            <motion.div
+              key="home"
+              variants={pageVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="space-y-14 my-auto w-full"
+            >
             {/* Minimal Vercel/Linear Style Hero Section */}
             <section className="py-6 md:py-12 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
               {/* Left Column */}
@@ -370,10 +448,17 @@ export default function App() {
             </section>
 
             {/* SPA Navigation Teaser Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
-              <button
+            <motion.div
+              variants={cardContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2"
+            >
+              <motion.button
+                variants={cardItemVariants}
+                whileHover={shouldReduceMotion ? {} : { y: -4, transition: { duration: 0.18 } }}
                 onClick={() => handleTabChange('competencies')}
-                className="text-left bg-slate-900/60 border border-slate-800/90 rounded-2xl p-6 hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300 group space-y-3"
+                className="text-left bg-slate-900/60 border border-slate-800/90 rounded-2xl p-6 hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 transition-colors transition-shadow duration-300 group space-y-3"
               >
                 <div className="flex items-center justify-between">
                   <div className="p-2.5 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
@@ -387,11 +472,13 @@ export default function App() {
                     Explore specialized skills across Financial Math, ML, SQL, and Statistical Inference.
                   </p>
                 </div>
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
+                variants={cardItemVariants}
+                whileHover={shouldReduceMotion ? {} : { y: -4, transition: { duration: 0.18 } }}
                 onClick={() => handleTabChange('projects')}
-                className="text-left bg-slate-900/60 border border-slate-800/90 rounded-2xl p-6 hover:border-emerald-500/50 hover:shadow-xl hover:shadow-emerald-500/10 hover:-translate-y-1 transition-all duration-300 group space-y-3"
+                className="text-left bg-slate-900/60 border border-slate-800/90 rounded-2xl p-6 hover:border-emerald-500/50 hover:shadow-xl hover:shadow-emerald-500/10 transition-colors transition-shadow duration-300 group space-y-3"
               >
                 <div className="flex items-center justify-between">
                   <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
@@ -405,11 +492,13 @@ export default function App() {
                     View GARCH(1,1) volatility models, SHAP explainable AI, and Simplex LP optimization.
                   </p>
                 </div>
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
+                variants={cardItemVariants}
+                whileHover={shouldReduceMotion ? {} : { y: -4, transition: { duration: 0.18 } }}
                 onClick={() => handleTabChange('education')}
-                className="text-left bg-slate-900/60 border border-slate-800/90 rounded-2xl p-6 hover:border-sky-500/50 hover:shadow-xl hover:shadow-sky-500/10 hover:-translate-y-1 transition-all duration-300 group space-y-3"
+                className="text-left bg-slate-900/60 border border-slate-800/90 rounded-2xl p-6 hover:border-sky-500/50 hover:shadow-xl hover:shadow-sky-500/10 transition-colors transition-shadow duration-300 group space-y-3"
               >
                 <div className="flex items-center justify-between">
                   <div className="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400">
@@ -423,14 +512,21 @@ export default function App() {
                     Review academic milestones from University of Ruhuna, NIBM, and Bandaranayake College.
                   </p>
                 </div>
-              </button>
-            </div>
-          </div>
+              </motion.button>
+            </motion.div>
+          </motion.div>
         )}
 
         {/* VIEW 2: ABOUT */}
         {activeTab === 'about' && (
-          <div className="space-y-8 animate-view py-4 my-auto">
+          <motion.div
+            key="about"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="space-y-8 py-4 my-auto w-full"
+          >
             <div>
               <span className="text-xs font-mono uppercase tracking-widest text-indigo-400">Background & Focus</span>
               <h2 className="text-3xl font-bold tracking-tight text-white mt-1">About Ruchira Jayamaha</h2>
@@ -534,12 +630,19 @@ export default function App() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* VIEW 3: COMPETENCIES */}
         {activeTab === 'competencies' && (
-          <div className="space-y-8 animate-view py-4 my-auto">
+          <motion.div
+            key="competencies"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="space-y-8 py-4 my-auto w-full"
+          >
             <div>
               <span className="text-xs font-mono uppercase tracking-widest text-indigo-400">Knowledge Architecture</span>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1">Core Competencies</h2>
@@ -548,11 +651,18 @@ export default function App() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <motion.div
+              variants={cardContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
               {skillsData.map((group, idx) => (
-                <div
+                <motion.div
                   key={idx}
-                  className="bg-slate-900/60 border border-slate-800/90 rounded-2xl p-6 hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300 space-y-4"
+                  variants={cardItemVariants}
+                  whileHover={shouldReduceMotion ? {} : { y: -4, transition: { duration: 0.18 } }}
+                  className="bg-slate-900/60 border border-slate-800/90 rounded-2xl p-6 hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 transition-colors transition-shadow duration-300 space-y-4"
                 >
                   <div className="flex items-center gap-3">
                     <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/50">
@@ -570,15 +680,22 @@ export default function App() {
                       </span>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
 
         {/* VIEW 4: PROJECTS */}
         {activeTab === 'projects' && (
-          <div className="space-y-8 animate-view py-4 my-auto">
+          <motion.div
+            key="projects"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="space-y-8 py-4 my-auto w-full"
+          >
             <div>
               <span className="text-xs font-mono uppercase tracking-widest text-indigo-400">Proven Evidence</span>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1">Featured Projects</h2>
@@ -587,11 +704,18 @@ export default function App() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
+            <motion.div
+              variants={cardContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch"
+            >
               {projectsData.map((proj) => (
-                <div
+                <motion.div
                   key={proj.id}
-                  className="bg-slate-900/60 backdrop-blur-sm border border-slate-800/90 rounded-2xl p-6 flex flex-col justify-between h-full hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300 group"
+                  variants={cardItemVariants}
+                  whileHover={shouldReduceMotion ? {} : { y: -4, transition: { duration: 0.18 } }}
+                  className="bg-slate-900/60 backdrop-blur-sm border border-slate-800/90 rounded-2xl p-6 flex flex-col justify-between h-full hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 transition-colors transition-shadow duration-300 group"
                 >
                   <div className="space-y-3 flex-1 flex flex-col justify-between">
                     <div className="space-y-3">
@@ -679,23 +803,39 @@ export default function App() {
                       </button>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
 
         {/* VIEW 5: EDUCATION */}
         {activeTab === 'education' && (
-          <div className="space-y-8 animate-view py-4 my-auto">
+          <motion.div
+            key="education"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="space-y-8 py-4 my-auto w-full"
+          >
             <div>
               <span className="text-xs font-mono uppercase tracking-widest text-indigo-400">Academic Background</span>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mt-1">Education & Credentials</h2>
             </div>
 
-            <div className="relative border-l border-slate-800 ml-3 pl-8 space-y-8">
+            <motion.div
+              variants={cardContainerVariants}
+              initial="hidden"
+              animate="visible"
+              className="relative border-l border-slate-800 ml-3 pl-8 space-y-8"
+            >
               {educationData.map((edu, idx) => (
-                <div key={idx} className="relative group">
+                <motion.div
+                  key={idx}
+                  variants={cardItemVariants}
+                  className="relative group"
+                >
                   <div className="absolute -left-[39px] top-4 w-3.5 h-3.5 rounded-full bg-indigo-500 border-4 border-slate-950 group-hover:scale-125 transition" />
                   
                   <div className="bg-slate-900/50 border border-slate-800/90 rounded-2xl p-5 hover:border-indigo-500/50 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 space-y-3 shadow-sm">
@@ -729,15 +869,22 @@ export default function App() {
                       {edu.focus}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
 
         {/* VIEW 6: CONTACT (Web3Forms Interactive Form) */}
         {activeTab === 'contact' && (
-          <div className="animate-view py-6 my-auto min-h-[75vh] flex flex-col justify-center">
+          <motion.div
+            key="contact"
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="py-6 my-auto min-h-[75vh] flex flex-col justify-center w-full"
+          >
             <div className="max-w-4xl mx-auto w-full space-y-8">
               
               {/* Header & Quick Metadata Pills */}
@@ -778,33 +925,47 @@ export default function App() {
                     </span>
                   </div>
 
-                  {submitStatus === 'success' && (
-                    <div className="p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs space-y-2 animate-view">
-                      <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
-                        <Check className="w-5 h-5 shrink-0" /> Message Sent Successfully!
-                      </div>
-                      <p className="leading-relaxed">
-                        Thank you! Your message has been sent directly to Ruchira. I'll get back to you shortly.
-                      </p>
-                    </div>
-                  )}
-
-                  {submitStatus === 'error' && (
-                    <div className="p-5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs space-y-3 animate-view">
-                      <div className="flex items-center gap-2 text-rose-400 font-bold text-sm">
-                        <AlertCircle className="w-5 h-5 shrink-0" /> Submission Failed
-                      </div>
-                      <p className="leading-relaxed">
-                        {errorMessage || 'Something went wrong. Please try again or reach out via direct email.'}
-                      </p>
-                      <button
-                        onClick={() => setSubmitStatus('idle')}
-                        className="px-3 py-1 rounded bg-rose-600/20 hover:bg-rose-600/30 text-rose-200 text-xs font-semibold transition"
+                  <AnimatePresence>
+                    {submitStatus === 'success' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.18 }}
+                        className="p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs space-y-2"
                       >
-                        Retry Submission
-                      </button>
-                    </div>
-                  )}
+                        <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                          <Check className="w-5 h-5 shrink-0" /> Message Sent Successfully!
+                        </div>
+                        <p className="leading-relaxed">
+                          Thank you! Your message has been sent directly to Ruchira. I'll get back to you shortly.
+                        </p>
+                      </motion.div>
+                    )}
+
+                    {submitStatus === 'error' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.18 }}
+                        className="p-5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs space-y-3"
+                      >
+                        <div className="flex items-center gap-2 text-rose-400 font-bold text-sm">
+                          <AlertCircle className="w-5 h-5 shrink-0" /> Submission Failed
+                        </div>
+                        <p className="leading-relaxed">
+                          {errorMessage || 'Something went wrong. Please try again or reach out via direct email.'}
+                        </p>
+                        <button
+                          onClick={() => setSubmitStatus('idle')}
+                          className="px-3 py-1 rounded bg-rose-600/20 hover:bg-rose-600/30 text-rose-200 text-xs font-semibold transition"
+                        >
+                          Retry Submission
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
                   <form onSubmit={handleContactSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -947,93 +1108,112 @@ export default function App() {
 
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
 
+        </AnimatePresence>
       </main>
 
       {/* Proof of Work Methodology Modal */}
-      {activeMethodologyProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-view">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setActiveMethodologyProject(null)}
-              className="absolute top-4 right-4 p-2 rounded-lg bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
-              aria-label="Close modal"
+      <AnimatePresence>
+        {activeMethodologyProject && (
+          <motion.div
+            key="methodology-modal-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setActiveMethodologyProject(null);
+            }}
+          >
+            <motion.div
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: 8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96, y: -8 }}
+              transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
+              className="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 sm:p-8 space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto"
             >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-indigo-400 font-semibold">
-                Project Proof of Work & Methodology
-              </span>
-              <h3 className="text-2xl font-bold text-white mt-1">
-                {activeMethodologyProject.title}
-              </h3>
-              <p className="text-xs text-indigo-300 font-mono mt-0.5">
-                {activeMethodologyProject.subtitle}
-              </p>
-            </div>
-
-            {/* LaTeX Equation Container in Modal */}
-            {activeMethodologyProject.formula && (
-              <div className="p-3.5 rounded-xl bg-slate-950 border border-indigo-500/30 max-w-full overflow-hidden">
-                <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider block mb-1">
-                  Analytical Framework Equation
-                </span>
-                <div className="overflow-x-auto no-scrollbar max-w-full py-1">
-                  <MathFormula math={activeMethodologyProject.formula} block={true} />
-                </div>
-              </div>
-            )}
-
-            <div className="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
-              <div>
-                <h4 className="font-semibold text-white font-mono text-xs uppercase tracking-wider text-slate-400 mb-1">
-                  Methodology & Pipeline
-                </h4>
-                <p className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-slate-300 font-mono text-xs">
-                  {activeMethodologyProject.methodology}
-                </p>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-white font-mono text-xs uppercase tracking-wider text-slate-400 mb-1">
-                  Problem & Mathematical Approach
-                </h4>
-                <p>{activeMethodologyProject.description}</p>
-              </div>
-
-              <div>
-                <h4 className="font-semibold text-white font-mono text-xs uppercase tracking-wider text-slate-400 mb-1">
-                  Empirical Impact & Metrics
-                </h4>
-                <p className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-medium">
-                  {activeMethodologyProject.metrics}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between pt-4 border-t border-slate-800">
-              <a
-                href={activeMethodologyProject.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-2"
-              >
-                <GithubIcon className="w-4 h-4" /> View Full Repository
-              </a>
               <button
                 onClick={() => setActiveMethodologyProject(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs transition"
+                className="absolute top-4 right-4 p-2 rounded-lg bg-slate-950 text-slate-400 hover:text-white border border-slate-800"
+                aria-label="Close modal"
               >
-                Close Window
+                <X className="w-5 h-5" />
               </button>
-            </div>
-          </div>
-        </div>
-      )}
+
+              <div>
+                <span className="text-xs font-mono uppercase tracking-widest text-indigo-400 font-semibold">
+                  Project Proof of Work & Methodology
+                </span>
+                <h3 className="text-2xl font-bold text-white mt-1">
+                  {activeMethodologyProject.title}
+                </h3>
+                <p className="text-xs text-indigo-300 font-mono mt-0.5">
+                  {activeMethodologyProject.subtitle}
+                </p>
+              </div>
+
+              {/* LaTeX Equation Container in Modal */}
+              {activeMethodologyProject.formula && (
+                <div className="p-3.5 rounded-xl bg-slate-950 border border-indigo-500/30 max-w-full overflow-hidden">
+                  <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider block mb-1">
+                    Analytical Framework Equation
+                  </span>
+                  <div className="overflow-x-auto no-scrollbar max-w-full py-1">
+                    <MathFormula math={activeMethodologyProject.formula} block={true} />
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <div>
+                  <h4 className="font-semibold text-white font-mono text-xs uppercase tracking-wider text-slate-400 mb-1">
+                    Methodology & Pipeline
+                  </h4>
+                  <p className="bg-slate-950 p-3 rounded-xl border border-slate-800 text-slate-300 font-mono text-xs">
+                    {activeMethodologyProject.methodology}
+                  </p>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-white font-mono text-xs uppercase tracking-wider text-slate-400 mb-1">
+                    Problem & Mathematical Approach
+                  </h4>
+                  <p>{activeMethodologyProject.description}</p>
+                </div>
+
+                <div>
+                  <h4 className="font-semibold text-white font-mono text-xs uppercase tracking-wider text-slate-400 mb-1">
+                    Empirical Impact & Metrics
+                  </h4>
+                  <p className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-medium">
+                    {activeMethodologyProject.metrics}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-4 border-t border-slate-800">
+                <a
+                  href={activeMethodologyProject.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition flex items-center gap-2"
+                >
+                  <GithubIcon className="w-4 h-4" /> View Full Repository
+                </a>
+                <button
+                  onClick={() => setActiveMethodologyProject(null)}
+                  className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs transition"
+                >
+                  Close Window
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Persistent SPA Footer */}
       <footer className="border-t border-slate-900 py-8 text-slate-500 bg-slate-950/80 mt-auto">

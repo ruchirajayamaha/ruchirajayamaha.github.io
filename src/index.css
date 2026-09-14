@@ -75,18 +75,4 @@
   -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
 }
 
-/* View Transition Animation */
-@keyframes viewFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-view {
-  animation: viewFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+/* Smooth transitions and layout animations handled via Framer Motion */
