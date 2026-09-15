@@ -424,24 +424,25 @@ export default function App() {
 
               {/* Right Column: Sleek Portrait Card */}
               <div className="lg:col-span-5 flex justify-center lg:justify-end">
-                <div className="relative w-full max-w-[320px] sm:max-w-[340px] aspect-[4/5] rounded-3xl p-2 bg-slate-900/90 border border-slate-800 shadow-2xl shadow-indigo-950/30 overflow-hidden group">
-                  <div className="absolute -inset-2 bg-gradient-to-tr from-indigo-500/20 via-sky-500/10 to-emerald-500/20 rounded-3xl blur-xl opacity-60 group-hover:opacity-90 transition duration-700 pointer-events-none" />
+                <div className="relative w-full max-w-[320px] sm:max-w-[340px] group">
+                  {/* Subtle ambient violet/indigo glow fitting dark theme */}
+                  <div className="absolute -inset-1.5 bg-gradient-to-tr from-violet-600/20 via-indigo-500/15 to-purple-600/10 rounded-2xl blur-xl opacity-70 group-hover:opacity-100 transition duration-700 pointer-events-none" />
 
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden bg-slate-950">
+                  {/* Rounded containment container */}
+                  <div className="relative aspect-[4/5] rounded-2xl border border-slate-800/80 shadow-xl shadow-violet-500/5 overflow-hidden bg-slate-950">
                     <img
-                      src={`${import.meta.env.BASE_URL}profile.jpg`}
+                      src={`${import.meta.env.BASE_URL}profile.png`}
                       alt={personalInfo.name}
-                      className="w-full h-full object-cover object-center filter brightness-95 contrast-[1.03] saturate-[0.9] group-hover:scale-105 group-hover:saturate-100 transition-all duration-700"
+                      className="w-full h-full object-cover object-top filter brightness-[0.98] contrast-[1.02] group-hover:scale-105 transition-all duration-700 rounded-2xl"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                       }}
                     />
 
-                    <div className="absolute bottom-3 left-3 right-3 backdrop-blur-md bg-slate-950/75 border border-slate-800/80 rounded-xl py-2 px-3 text-center shadow-lg">
-                      <p className="text-xs font-mono font-medium text-slate-300 tracking-wide">
-                        Univ. of Ruhuna • NIBM
-                      </p>
-                    </div>
+                    {/* Gradient overlays: subtle top & edge vignette plus bottom dark fade to blend stark white studio background into dark theme */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-slate-950/10 pointer-events-none" />
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgba(2,6,23,0.35)_100%)] pointer-events-none" />
+                    <div className="absolute inset-0 ring-1 ring-inset ring-slate-800/80 rounded-2xl pointer-events-none" />
                   </div>
                 </div>
               </div>
